@@ -26,4 +26,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/MapButton"
+        android:layout_width="217dp"
+        android:layout_height="47dp"
+        android:text="GO TO MAP"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="120dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

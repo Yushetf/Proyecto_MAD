@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     private val TAG = "btaMainActivity"
     private lateinit var locationManager: LocationManager
     private val locationPermissionCode = 2
+    private var latestLocation: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,20 @@ class MainActivity : AppCompatActivity(), LocationListener {
         buttonGoToSecond.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
             startActivity(intent)
+        }
+
+        val buttonOsm: Button = findViewById(R.id.MapButton)
+        buttonOsm.setOnClickListener {
+            if (latestLocation != null) {
+                val intent = Intent(this, OpenStreetMapActivity::class.java)
+                val bundle = Bundle()
+                bundle.putParcelable("location", latestLocation)
+                intent.putExtra("locationBundle", bundle)
+                startActivity(intent)
+            } else {
+                Log.e(TAG, "Location not set yet.")
+                // Aquí podrías mostrar un mensaje al usuario informando que la ubicación no está disponible aún.
+            }
         }
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
@@ -74,6 +89,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
+        latestLocation = location
         val textView: TextView = findViewById(R.id.mainTextView)
         textView.text = "Latitude: ${location.latitude}, Longitude: ${location.longitude}"
     }
