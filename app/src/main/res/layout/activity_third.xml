@@ -6,11 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ThirdActivity">
 
+    <!-- Botón para regresar a la segunda actividad -->
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GO TO SECOND ACTIVITY"
-        tools:layout_editor_absoluteX="23dp"
-        tools:layout_editor_absoluteY="22dp" />
+        android:textColor="#FFFFFF"
+        android:background="#FF5722"
+        android:textSize="18sp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="200dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

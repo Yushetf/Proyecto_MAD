@@ -4,34 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#F5F5F5">
 
+    <!-- TextView principal -->
     <TextView
         android:id="@+id/mainTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Welcome to Madrid Bars Finder!"
+        android:textColor="#333333"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Botón principal -->
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
+        android:background="#FF5722"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         android:text="GO TO SECOND ACTIVITY"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/MapButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/mainTextView" />
 
+    <!-- Botón para ir al mapa -->
     <Button
         android:id="@+id/MapButton"
-        android:layout_width="217dp"
-        android:layout_height="47dp"
-        android:text="GO TO MAP"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="120dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Map"
+        android:textColor="#FFFFFF"
+        android:background="#2196F3"
+        android:textSize="18sp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
