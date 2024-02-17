@@ -74,7 +74,7 @@ class OpenStreetMapActivity : AppCompatActivity() {
 
     fun addMarkersAndRoute(mapView: MapView, locationsCoords: List<GeoPoint>, locationsNames: List<String>) {
         if (locationsCoords.size != locationsNames.size) {
-            Log.e("addMarkersAndRoute", "Locations and names lists must have the same number of items.")
+            Log.e("addMarkersAndRoute", "Las listas de ubicaciones y nombres deben tener el mismo número de elementos.")
             return
         }
         val route = Polyline()
@@ -86,12 +86,16 @@ class OpenStreetMapActivity : AppCompatActivity() {
             marker.position = location
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             val locationIndex = locationsCoords.indexOf(location)
-            marker.title = "Marker at ${locationsNames[locationIndex]} ${location.latitude}, ${location.longitude}"
-            marker.icon = ContextCompat.getDrawable(this, org.osmdroid.library.R.drawable.ic_menu_compass)
+            marker.title = "Marcador en ${locationsNames[locationIndex]} ${location.latitude}, ${location.longitude}"
+            // Definir el tamaño del icono
+            val iconDrawable = ContextCompat.getDrawable(this, R.drawable.marker)
+            iconDrawable?.setBounds(0, 0, 10, 10) // Establecer el tamaño del icono (en este caso 40x40)
+            marker.icon = iconDrawable
             mapView.overlays.add(marker)
         }
         mapView.invalidate()
     }
+
 
     fun addMarkers(mapView: MapView, locationsCoords: List<GeoPoint>, locationsNames: List<String>) {
         for (i in locationsCoords.indices) {
@@ -101,10 +105,7 @@ class OpenStreetMapActivity : AppCompatActivity() {
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             marker.title =
                 "Marker at ${locationsNames[i]} ${location.latitude}, ${location.longitude}"
-
-            marker.icon =
-                ContextCompat.getDrawable(this, com.google.android.material.R.drawable.ic_m3_chip_checked_circle)
-
+            marker.icon = ContextCompat.getDrawable(this, R.drawable.marker)
             mapView.overlays.add(marker)
         }
 
