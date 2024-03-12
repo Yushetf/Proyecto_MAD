@@ -5,6 +5,6 @@
         android:id="@+id/action_settings"
         android:title="Settings"
         android:orderInCategory="100"
-        android:icon="@mipmap/config"
+        android:icon="@mipmap/config_monochrome"
         app:showAsAction="never"/>
 </menu>
