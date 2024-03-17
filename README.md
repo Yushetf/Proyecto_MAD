@@ -90,7 +90,7 @@ List of restaurants
   · Fourth step: We can view a list of available bars or restaurants if AFTER using the map, we go to the collection button. There, the names of the bars or restaurants   
     will appear. We can also clear the list by clicking on the button located at the top right (DELETE ALL), which will delete the entire database.
 
-##Participants
+## Participants
 
 List of Proyecto_MAD developers:
 
