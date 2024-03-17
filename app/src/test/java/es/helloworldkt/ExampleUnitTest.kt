@@ -1,4 +1,4 @@
-package com.example.proyectomadmaps
+package es.helloworldkt
 
 import org.junit.Test
 
