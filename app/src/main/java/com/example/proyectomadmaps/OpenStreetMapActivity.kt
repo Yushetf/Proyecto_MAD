@@ -3,113 +3,176 @@ package com.example.proyectomadmaps
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import es.upm.btb.helloworldkt.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.Polyline
-
+import com.example.proyectomadmaps.retrofit.OverpassApiService
+import com.example.proyectomadmaps.retrofit.data.OverpassResponse
+import com.example.proyectomadmaps.room.AppDatabase
+import com.example.proyectomadmaps.room.BarEntity
+import com.example.proyectomadmaps.room.IBarDao
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class OpenStreetMapActivity : AppCompatActivity() {
     private val TAG = "btaOpenStreetMapActivity"
     private lateinit var map: MapView
-
-    val gymkhanaCoords = listOf(
-        GeoPoint(40.38779608214728, -3.627687914352839), // Tennis
-        GeoPoint(40.38788595319803, -3.627048250272035), // Futsal outdoors
-        GeoPoint(40.3887315224542, -3.628643539758645), // Fashion and design
-        GeoPoint(40.38926842612264, -3.630067893975619), // Topos
-        GeoPoint(40.38956358584258, -3.629046081389352), // Teleco
-        GeoPoint(40.38992125672989, -3.6281366497769714), // ETSISI
-        GeoPoint(40.39037466191718, -3.6270256763598447), // Library
-        GeoPoint(40.389855884803005, -3.626782180787362) // CITSEM
-    )
-
-    val gymkhanaNames = listOf(
-        "Tennis",
-        "Futsal outdoors",
-        "Fashion and design",
-        "Topos",
-        "Teleco",
-        "ETSISI",
-        "Library",
-        "CITSEM"
-    )
+    lateinit var database: AppDatabase
+    private var maxDistance = 5000
+    private lateinit var startPoint: GeoPoint
+    private lateinit var currentLocationMarker: Marker
+    private lateinit var barDao: IBarDao // Bar DAO instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_open_street_map)
-        Log.d(TAG, "onCreate: The activity is being created.");
+
+        Log.d(TAG, "onCreate: The activity is being created.")
+
         val bundle = intent.getBundleExtra("locationBundle")
         val location: Location? = bundle?.getParcelable("location")
+
+        // Display open street map
+        Configuration.getInstance()
+            .load(applicationContext, getSharedPreferences("osm", MODE_PRIVATE))
+
+        map = findViewById(R.id.map)
+        map.setTileSource(TileSourceFactory.MAPNIK)
+        map.controller.setZoom(18.0)
+
         if (location != null) {
-            Log.i(
-                TAG,
-                "onCreate: Location[" + location.altitude + "][" + location.latitude + "][" + location.longitude + "]["
-            )
-            Configuration.getInstance()
-                .load(applicationContext, getSharedPreferences("osm", MODE_PRIVATE))
-            map = findViewById(R.id.map)
-            map.setTileSource(TileSourceFactory.MAPNIK)
-            map.controller.setZoom(18.0)
-            val startPoint = GeoPoint(location.latitude, location.longitude)
-            //val startPoint = GeoPoint(40.416775, -3.703790) in case you want to test it manually
+            Toast.makeText(
+                this,
+                "There is a location",
+                Toast.LENGTH_SHORT
+            ).show()
+            startPoint = GeoPoint(location.latitude, location.longitude)
             map.controller.setCenter(startPoint)
-            addMarker(startPoint, "My current location")
-            addMarkersAndRoute(map, gymkhanaCoords, gymkhanaNames)
+            addMarker(startPoint, "My current location", R.drawable.iconoubicacion)
+            fetchNearbyRestaurants(startPoint,maxDistance)
+        } else {
+            Toast.makeText(this, "NO LOCATION SET", Toast.LENGTH_SHORT)
+                .show()
         }
+
+        val setMaxDistanceButton = findViewById<Button>(R.id.setMaxDistanceButton)
+        setMaxDistanceButton.setOnClickListener {
+            // Abrir el diálogo para ingresar la distancia máxima
+            inputMaxDistance()
+        }
+        // Initialize the DAO for bar entity
+        barDao = AppDatabase.getInstance(this).barDao()
     }
 
-    private fun addMarker(point: GeoPoint, title: String) {
+    private fun addMarker(point: GeoPoint, title: String, iconResId: Int): Marker {
         val marker = Marker(map)
         marker.position = point
+        marker.icon = ContextCompat.getDrawable(this, iconResId)
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         marker.title = title
         map.overlays.add(marker)
         map.invalidate() // Reload map
+        return marker
     }
 
-    fun addMarkersAndRoute(mapView: MapView, locationsCoords: List<GeoPoint>, locationsNames: List<String>) {
-        if (locationsCoords.size != locationsNames.size) {
-            Log.e("addMarkersAndRoute", "Las listas de ubicaciones y nombres deben tener el mismo número de elementos.")
-            return
+    // Método para que el usuario ingrese la distancia máxima
+    private fun inputMaxDistance() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        val editText = EditText(this)
+
+        dialogBuilder.setTitle("Enter Max Distance (in meters)")
+        dialogBuilder.setView(editText)
+
+        dialogBuilder.setPositiveButton("OK") { dialog, _ ->
+            val input = editText.text.toString()
+            val newMaxDistance = if (input.isNotBlank()) {
+                input.toInt()
+            } else {
+                5000 // Valor predeterminado si el usuario no ingresa nada
+            }
+
+            Log.d(TAG, "newMaxDistance = $newMaxDistance")
+            dialog.dismiss()
+            // Llamar a la función para buscar restaurantes con la nueva distancia máxima
+            fetchNearbyRestaurants(startPoint, newMaxDistance)
         }
-        val route = Polyline()
-        route.setPoints(locationsCoords)
-        route.color = ContextCompat.getColor(this, R.color.teal_700)
-        mapView.overlays.add(route)
-        for (location in locationsCoords) {
-            val marker = Marker(mapView)
-            marker.position = location
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-            val locationIndex = locationsCoords.indexOf(location)
-            marker.title = "Marcador en ${locationsNames[locationIndex]} ${location.latitude}, ${location.longitude}"
-            // Definir el tamaño del icono
-            val iconDrawable = ContextCompat.getDrawable(this, R.drawable.marker)
-            iconDrawable?.setBounds(0, 0, 10, 10) // Establecer el tamaño del icono (en este caso 40x40)
-            marker.icon = iconDrawable
-            mapView.overlays.add(marker)
+
+        dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.cancel()
         }
-        mapView.invalidate()
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 
+    private fun fetchNearbyRestaurants(point: GeoPoint, maxDistance: Int) {
+        Log.d(TAG, "Estamos en la funcion fetchNearbyRestaurants")
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://overpass-api.de/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-    fun addMarkers(mapView: MapView, locationsCoords: List<GeoPoint>, locationsNames: List<String>) {
-        for (i in locationsCoords.indices) {
-            val location = locationsCoords[i]
-            val marker = Marker(mapView)
-            marker.position = location
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-            marker.title =
-                "Marker at ${locationsNames[i]} ${location.latitude}, ${location.longitude}"
-            marker.icon = ContextCompat.getDrawable(this, R.drawable.marker)
-            mapView.overlays.add(marker)
-        }
+        val service = retrofit.create(OverpassApiService::class.java)
 
-        mapView.invalidate() // Refresh the map to display the new markers
+        val dataQuery =
+            "[out:json];(node[\"amenity\"=\"restaurant\"](around:$maxDistance,${point.latitude},${point.longitude}););out;"
+        val call = service.fetchNearbyBars(dataQuery)
+
+        call.enqueue(object : Callback<OverpassResponse> {
+            override fun onResponse(
+                call: Call<OverpassResponse>,
+                response: Response<OverpassResponse>
+            ) {
+                runOnUiThread {
+                    if (response.isSuccessful) {
+                        // Eliminar todos los marcadores existentes antes de agregar nuevos
+                        map.overlays.clear()
+                        // Vuelve a agregar el marcador de ubicación actual
+                        currentLocationMarker = addMarker(startPoint, "My current location", R.drawable.iconoubicacion)
+                        response.body()?.elements?.forEach { element ->
+                            val restaurantName = element.tags?.get("name") ?: "Nombre no disponible"
+                            addMarker(GeoPoint(element.lat, element.lon), restaurantName, R.drawable.bares1)
+                            lifecycleScope.launch {
+                                withContext(Dispatchers.IO) {
+                                    // Operaciones de base de datos deben realizarse en el hilo de fondo
+                                    val bars = response.body()?.elements?.mapNotNull { element ->
+                                        element.tags?.get("name")?.let { BarEntity(name = it) }
+                                    }
+                                    bars?.forEach { bar ->
+                                        barDao.insertBar(bar)
+                                    }
+                                }
+                            }
+                        }
+                        map.invalidate() // Actualizar el mapa
+                        Log.d(TAG, "Se actualiza el mapa")
+                    } else {
+                        Log.d(TAG, "La petición no fue exitosa")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<OverpassResponse>, t: Throwable) {
+                Log.d(TAG, "FALLO: ${t.message}")
+            }
+        })
+
     }
 
     override fun onResume() {
@@ -122,3 +185,4 @@ class OpenStreetMapActivity : AppCompatActivity() {
         map.onPause()
     }
 }
+

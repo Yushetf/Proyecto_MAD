@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,33 +5,36 @@
     android:layout_height="match_parent"
     tools:context=".SecondActivity">
 
-    <!-- Botón para ir a la tercera actividad -->
-
-    <!-- Botón para ir a la actividad principal -->
-
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/deleteAllBarsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#FF5722"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:text="BACK"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:text="Delete All"
+        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         android:layout_marginTop="16dp"
+         android:layout_marginEnd="16dp"
+    />
 
-    <!-- ListView below the buttons -->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <ListView
-        android:id="@+id/lvCoordinates"
+        android:id="@+id/listViewBars"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button2"
-        app:layout_constraintVertical_bias="0.0" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/nav_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
+
+</androidx.constraintlayout.widget.ConstraintLayout>
