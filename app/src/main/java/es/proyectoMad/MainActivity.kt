@@ -1,6 +1,7 @@
-package proyectoMad
+package es.proyectoMad
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -24,8 +25,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import es.upm.btb.helloworldkt.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import proyectoMad.persistence.room.AppDatabase
-import proyectoMad.persistence.room.LocationEntity
+import es.proyectoMad.persistence.room.AppDatabase
+import es.proyectoMad.persistence.room.LocationEntity
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -34,6 +38,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
     private var latestLocation: Location? = null
     private val locationPermissionCode = 2
     lateinit var database: AppDatabase
+
+    // companion is the same than an static object in java
+    companion object {
+        private const val RC_SIGN_IN = 123
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,14 +83,14 @@ class MainActivity : AppCompatActivity(), LocationListener {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        // Shared prefs. Check if the user identifier is already saved
+        /*// Shared prefs. Check if the user identifier is already saved
         val userIdentifier = getUserIdentifier()
         if (userIdentifier == null) {
             askForUserIdentifier()
         } else {
             Toast.makeText(this, "User ID: $userIdentifier", Toast.LENGTH_LONG).show()
         }
-
+         */
         // Location manager init and permisssons
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (ActivityCompat.checkSelfPermission(
@@ -105,6 +114,9 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         // Room database init
         database = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "coordinates").build()
+
+        // Init authentication flow
+        launchSignInFlow()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -122,7 +134,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         latestLocation = location
         val textView: TextView = findViewById(R.id.mainTextView)
         textView.text = "\uD83D\uDCCD Latitude: [${location.latitude}], Longitude: [${location.longitude}], UserId: [${getUserIdentifier()}]"
-        Toast.makeText(this, "Coordinates update! [${location.latitude}][${location.longitude}]", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Coordinates update! [${location.latitude}][${location.longitude}]", Toast.LENGTH_LONG).show()
 
         // save coordinates to room databse
         val newLocation = LocationEntity(
@@ -138,34 +150,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
     override fun onProviderEnabled(provider: String) {}
     override fun onProviderDisabled(provider: String) {}
-
-
-    private fun askForUserIdentifier() {
-        val input = EditText(this)
-        AlertDialog.Builder(this)
-            .setTitle("Enter User Identifier")
-            .setIcon(R.mipmap.ic_launcher)
-            .setView(input)
-            .setPositiveButton("Save") { dialog, which ->
-                val userInput = input.text.toString()
-                if (userInput.isNotBlank()) {
-                    saveUserIdentifier(userInput)
-                    Toast.makeText(this, "User ID saved: $userInput", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this, "User ID cannot be blank", Toast.LENGTH_LONG).show()
-                }
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
-
-    private fun saveUserIdentifier(userIdentifier: String) {
-        val sharedPreferences = this.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        sharedPreferences.edit().apply {
-            putString("userIdentifier", userIdentifier)
-            apply()
-        }
-    }
 
     private fun getUserIdentifier(): String? {
         val sharedPreferences = this.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
@@ -183,8 +167,66 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
+            R.id.action_logout -> {
+                logout() // Aquí llamas al método logout()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val response = IdpResponse.fromResultIntent(data)
+            if (resultCode == Activity.RESULT_OK) {
+                // user login succeeded
+                val user = FirebaseAuth.getInstance().currentUser
+                Toast.makeText(this, R.string.signed_in, Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "onActivityResult " + getString(R.string.signed_in));
+            } else {
+                // user login failed
+                Log.e(TAG, "Error starting auth session: ${response?.error?.errorCode}")
+                Toast.makeText(this, R.string.signed_cancelled, Toast.LENGTH_SHORT).show();
+                finish()
+            }
+        }
+    }
+    private fun launchSignInFlow() {
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .build(),
+            RC_SIGN_IN
+        )
+    }
+    private fun logout() {
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener {
+                // Restart activity after finishing
+                val intent = Intent(this, MainActivity::class.java)
+                // Clean back stack so that user cannot retake activity after logout
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
+    }
+    private fun updateUIWithUsername() {
+        val user = FirebaseAuth.getInstance().currentUser
+        val userNameTextView: TextView = findViewById(R.id.userNameTextView)
+        user?.let {
+            val name = user.displayName ?: "No Name"
+            userNameTextView.text = "\uD83E\uDD35\u200D♂\uFE0F " + name
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        updateUIWithUsername()
+    }
 }

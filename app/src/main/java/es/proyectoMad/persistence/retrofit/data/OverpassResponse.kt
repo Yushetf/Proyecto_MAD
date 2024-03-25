@@ -1,4 +1,4 @@
-package proyectoMad.persistence.retrofit.data
+package es.proyectoMad.persistence.retrofit.data
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,4 +1,4 @@
-package proyectoMad
+package es.proyectoMad
 
 import android.content.Context
 import android.content.Intent
@@ -20,7 +20,7 @@ import es.upm.btb.helloworldkt.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import proyectoMad.persistence.room.AppDatabase
+import es.proyectoMad.persistence.room.AppDatabase
 
 class SecondActivity : AppCompatActivity() {
     private val TAG = "btaSecondActivity"

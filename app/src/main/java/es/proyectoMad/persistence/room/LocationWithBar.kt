@@ -1,4 +1,4 @@
-package proyectoMad.persistence.room
+package es.proyectoMad.persistence.room
 
 data class LocationWithBar(
     val latitude: Double,

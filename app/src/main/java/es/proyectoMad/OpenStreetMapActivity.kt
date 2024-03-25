@@ -1,4 +1,4 @@
-package proyectoMad
+package es.proyectoMad
 
 import android.content.Context
 import android.location.Location
@@ -22,11 +22,11 @@ import org.osmdroid.util.Distance
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
-import proyectoMad.persistence.retrofit.OverpassApiService
-import proyectoMad.persistence.retrofit.data.OverpassResponse
-import proyectoMad.persistence.room.AppDatabase
-import proyectoMad.persistence.room.BarEntity
-import proyectoMad.persistence.room.IBarDao
+import es.proyectoMad.persistence.retrofit.OverpassApiService
+import es.proyectoMad.persistence.retrofit.data.OverpassResponse
+import es.proyectoMad.persistence.room.AppDatabase
+import es.proyectoMad.persistence.room.BarEntity
+import es.proyectoMad.persistence.room.IBarDao
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

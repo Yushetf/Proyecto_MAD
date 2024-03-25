@@ -1,4 +1,4 @@
-package proyectoMad.persistence.room
+package es.proyectoMad.persistence.room
 
 import android.content.Context
 import androidx.room.Database

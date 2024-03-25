@@ -1,6 +1,6 @@
-package proyectoMad.persistence.retrofit
+package es.proyectoMad.persistence.retrofit
 
-import proyectoMad.persistence.retrofit.data.OverpassResponse
+import es.proyectoMad.persistence.retrofit.data.OverpassResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

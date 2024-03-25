@@ -1,4 +1,4 @@
-package proyectoMad.persistence.room
+package es.proyectoMad.persistence.room
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
