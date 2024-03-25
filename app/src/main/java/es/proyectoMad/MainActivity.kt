@@ -83,14 +83,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        /*// Shared prefs. Check if the user identifier is already saved
-        val userIdentifier = getUserIdentifier()
-        if (userIdentifier == null) {
-            askForUserIdentifier()
-        } else {
-            Toast.makeText(this, "User ID: $userIdentifier", Toast.LENGTH_LONG).show()
-        }
-         */
+
         // Location manager init and permisssons
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (ActivityCompat.checkSelfPermission(
@@ -133,7 +126,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     override fun onLocationChanged(location: Location) {
         latestLocation = location
         val textView: TextView = findViewById(R.id.mainTextView)
-        textView.text = "\uD83D\uDCCD Latitude: [${location.latitude}], Longitude: [${location.longitude}], UserId: [${getUserIdentifier()}]"
+        textView.text = "\uD83D\uDCCD Latitude: [${location.latitude}], Longitude: [${location.longitude}"
         //Toast.makeText(this, "Coordinates update! [${location.latitude}][${location.longitude}]", Toast.LENGTH_LONG).show()
 
         // save coordinates to room databse
