@@ -14,7 +14,6 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import es.upm.btb.helloworldkt.R
 import kotlinx.coroutines.Dispatchers
@@ -68,6 +67,19 @@ class SecondActivity : AppCompatActivity() {
         // Init database
         database = AppDatabase.getInstance(this)
 
+        // Listener para la selección de un bar en la lista
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val selectedBarName = adapter.getItem(position)
+            val selectedBarEntity = selectedBarName?.let { database.barDao().getBarByName(it) }
+            if (selectedBarEntity != null) {
+                val intent = Intent(this@SecondActivity, BarDetailsActivity::class.java)
+                intent.putExtra("barEntity", selectedBarEntity)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Bar not found", Toast.LENGTH_SHORT).show()
+            }
+
+        }
     }
 
     override fun onResume() {
@@ -87,7 +99,7 @@ class SecondActivity : AppCompatActivity() {
         barsList.forEach { barEntity ->
             barNamesSet.add(barEntity.name)
         }
-        return barNamesSet.toList()
+        return barNamesSet.toList().sorted()
     }
 
     private fun deleteAllBarsFromDatabase() {

@@ -26,6 +26,10 @@
             android:name="es.proyectoMad.OpenStreetMapActivity"
             android:exported="false" />
         <activity
+            android:name="es.proyectoMad.BarDetailsActivity"
+            android:exported="false" />
+
+        <activity
             android:name="es.proyectoMad.SecondActivity"
             android:exported="false">
             <meta-data

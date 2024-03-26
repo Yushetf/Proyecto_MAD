@@ -143,32 +143,69 @@ class OpenStreetMapActivity : AppCompatActivity() {
                 call: Call<OverpassResponse>,
                 response: Response<OverpassResponse>
             ) {
-                runOnUiThread {
-                    if (response.isSuccessful) {
-                        // Eliminar todos los marcadores existentes antes de agregar nuevos
-                        map.overlays.clear()
-                        // Vuelve a agregar el marcador de ubicación actual
-                        currentLocationMarker = addMarker(startPoint, "My current location", R.drawable.iconoubicacion)
-                        response.body()?.elements?.forEach { element ->
-                            val restaurantName = element.tags?.get("name") ?: "Nombre no disponible"
-                            addMarker(GeoPoint(element.lat, element.lon), restaurantName, R.drawable.bares1)
-                            lifecycleScope.launch {
-                                withContext(Dispatchers.IO) {
-                                    // Operaciones de base de datos deben realizarse en el hilo de fondo
-                                    val bars = response.body()?.elements?.mapNotNull { element ->
-                                        element.tags?.get("name")?.let { BarEntity(name = it) }
-                                    }
-                                    bars?.forEach { bar ->
-                                        barDao.insertBar(bar)
-                                    }
-                                }
+                if (response.isSuccessful) {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            // Eliminar todos los marcadores existentes antes de agregar nuevos
+                            map.overlays.clear()
+                            // Vuelve a agregar el marcador de ubicación actual
+                            currentLocationMarker = addMarker(startPoint, "My current location", R.drawable.iconoubicacion)
+
+                            // Procesar la respuesta de la API y guardar los datos en la base de datos
+                            response.body()?.elements?.forEach { element ->
+                                val restaurantName = element.tags?.get("name") ?: "Nombre no disponible"
+                                val cuisine = element.tags?.get("cuisine")
+                                val openingHours = element.tags?.get("opening_hours")
+                                val delivery = element.tags?.get("delivery")?.toBoolean() ?: false
+                                val outdoorSeating = element.tags?.get("outdoor_seating")?.toBoolean() ?: false
+                                val reservation = element.tags?.get("reservation")?.toBoolean() ?: false
+                                val address = element.tags?.get("addr:full")
+                                val wheelchairAccessible = element.tags?.get("wheelchair")?.toBoolean() ?: false
+                                val startDate = element.tags?.get("start_date")
+                                val internetAccess = element.tags?.get("internet_access")?.toBoolean() ?: false
+                                val smokingAllowed = element.tags?.get("smoking")?.toBoolean() ?: false
+                                val image = element.tags?.get("image")
+                                val websiteMenu = element.tags?.get("website:menu")
+                                val website = element.tags?.get("website")
+                                val phoneNumber = element.tags?.get("phone")
+                                val michelinStars = element.tags?.get("stars")?.toIntOrNull()
+
+                                val bar = BarEntity(
+                                    name = restaurantName,
+                                    cuisine = cuisine,
+                                    openingHours = openingHours,
+                                    takeaway = false, // No se proporciona en la respuesta de la API
+                                    delivery = delivery,
+                                    outdoorSeating = outdoorSeating,
+                                    reservation = reservation,
+                                    address = address,
+                                    wheelchairAccessible = wheelchairAccessible,
+                                    vegetarianFriendly = false, // No se proporciona en la respuesta de la API
+                                    veganFriendly = false, // No se proporciona en la respuesta de la API
+                                    startDate = startDate,
+                                    internetAccess = internetAccess,
+                                    smokingAllowed = smokingAllowed,
+                                    image = image,
+                                    websiteMenu = websiteMenu,
+                                    website = website,
+                                    phoneNumber = phoneNumber,
+                                    michelinStars = michelinStars,
+                                    kitchenOpeningHours = null // No se proporciona en la respuesta de la API
+                                )
+
+                                // Insertar en la base de datos
+                                barDao.insertBar(bar)
+
+                                // Agregar marcador en el mapa
+                                addMarker(GeoPoint(element.lat, element.lon), restaurantName, R.drawable.bares1)
                             }
+
+                            map.invalidate() // Actualizar el mapa
+                            Log.d(TAG, "Se actualiza el mapa")
                         }
-                        map.invalidate() // Actualizar el mapa
-                        Log.d(TAG, "Se actualiza el mapa")
-                    } else {
-                        Log.d(TAG, "La petición no fue exitosa")
                     }
+                } else {
+                    Log.d(TAG, "La petición no fue exitosa")
                 }
             }
 
@@ -176,8 +213,8 @@ class OpenStreetMapActivity : AppCompatActivity() {
                 Log.d(TAG, "FALLO: ${t.message}")
             }
         })
-
     }
+
 
     override fun onResume() {
         super.onResume()

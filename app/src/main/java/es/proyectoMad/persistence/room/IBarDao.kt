@@ -14,4 +14,7 @@ interface IBarDao {
 
     @Query("DELETE FROM bar")
     fun deleteAllBars()
+
+    @Query("SELECT * FROM bar WHERE name = :name")
+    fun getBarByName(name: String): BarEntity?
 }

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewBarName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Bar Name" />
+
+    <TextView
+        android:id="@+id/textViewCuisine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewBarName"
+        android:layout_marginTop="16dp"
+        android:text="Cuisine" />
+
+    <TextView
+        android:id="@+id/textViewOpeningHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewCuisine"
+        android:layout_marginTop="8dp"
+        android:text="Opening Hours" />
+
+    <TextView
+        android:id="@+id/textViewTakeaway"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewOpeningHours"
+        android:layout_marginTop="8dp"
+        android:text="Takeaway" />
+
+    <TextView
+        android:id="@+id/textViewDelivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewTakeaway"
+        android:layout_marginTop="8dp"
+        android:text="Delivery" />
+
+    <TextView
+        android:id="@+id/textViewOutdoorSeating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewDelivery"
+        android:layout_marginTop="8dp"
+        android:text="Outdoor Seating" />
+
+    <TextView
+        android:id="@+id/textViewReservation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewOutdoorSeating"
+        android:layout_marginTop="8dp"
+        android:text="Reservation" />
+
+    <TextView
+        android:id="@+id/textViewAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewReservation"
+        android:layout_marginTop="8dp"
+        android:text="Address" />
+
+    <TextView
+        android:id="@+id/textViewWheelchairAccessible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewAddress"
+        android:layout_marginTop="8dp"
+        android:text="Wheelchair Accessible" />
+
+    <TextView
+        android:id="@+id/textViewVegetarianFriendly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewWheelchairAccessible"
+        android:layout_marginTop="8dp"
+        android:text="Vegetarian Friendly" />
+
+    <TextView
+        android:id="@+id/textViewVeganFriendly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewVegetarianFriendly"
+        android:layout_marginTop="8dp"
+        android:text="Vegan Friendly" />
+
+    <TextView
+        android:id="@+id/textViewStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewVeganFriendly"
+        android:layout_marginTop="8dp"
+        android:text="Start Date" />
+
+    <TextView
+        android:id="@+id/textViewInternetAccess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewStartDate"
+        android:layout_marginTop="8dp"
+        android:text="Internet Access" />
+
+    <TextView
+        android:id="@+id/textViewSmokingAllowed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewInternetAccess"
+        android:layout_marginTop="8dp"
+        android:text="Smoking Allowed" />
+
+    <TextView
+        android:id="@+id/textViewImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewSmokingAllowed"
+        android:layout_marginTop="8dp"
+        android:text="Image" />
+
+    <TextView
+        android:id="@+id/textViewWebsiteMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewImage"
+        android:layout_marginTop="8dp"
+        android:text="Website Menu" />
+
+    <TextView
+        android:id="@+id/textViewWebsite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewWebsiteMenu"
+        android:layout_marginTop="8dp"
+        android:text="Website" />
+
+    <TextView
+        android:id="@+id/textViewPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewWebsite"
+        android:layout_marginTop="8dp"
+        android:text="Phone Number" />
+
+    <TextView
+        android:id="@+id/textViewMichelinStars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewPhoneNumber"
+        android:layout_marginTop="8dp"
+        android:text="Michelin Stars" />
+
+    <TextView
+        android:id="@+id/textViewKitchenOpeningHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textViewMichelinStars"
+        android:layout_marginTop="8dp"
+        android:text="Kitchen Opening Hours" />
+
+</RelativeLayout>
