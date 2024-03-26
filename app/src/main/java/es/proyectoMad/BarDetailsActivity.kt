@@ -1,6 +1,8 @@
 package es.proyectoMad
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,29 +20,25 @@ class BarDetailsActivity : AppCompatActivity() {
 
         // Mostrar los datos del bar en la interfaz de usuario si barEntity no es nulo
         if (barEntity != null) {
-            findViewById<TextView>(R.id.textViewBarName).text = barEntity.name
-            findViewById<TextView>(R.id.textViewCuisine).text = barEntity.cuisine ?: "N/A"
-            findViewById<TextView>(R.id.textViewOpeningHours).text = barEntity.openingHours ?: "N/A"
-            findViewById<TextView>(R.id.textViewTakeaway).text = if (barEntity.takeaway) "Yes" else "No"
-            findViewById<TextView>(R.id.textViewDelivery).text = if (barEntity.delivery) "Yes" else "No"
-            findViewById<TextView>(R.id.textViewOutdoorSeating).text = if (barEntity.outdoorSeating) "Yes" else "No"
-            findViewById<TextView>(R.id.textViewReservation).text = if (barEntity.reservation) "Yes" else "No"
-            findViewById<TextView>(R.id.textViewAddress).text = barEntity.address ?: "N/A"
-            findViewById<TextView>(R.id.textViewWheelchairAccessible).text = if (barEntity.wheelchairAccessible) "Yes" else "No"
-            findViewById<TextView>(R.id.textViewVegetarianFriendly).text = if (barEntity.vegetarianFriendly) "Yes" else "No"
-            findViewById<TextView>(R.id.textViewVeganFriendly).text = if (barEntity.veganFriendly) "Yes" else "No"
-            findViewById<TextView>(R.id.textViewStartDate).text = barEntity.startDate ?: "N/A"
-            findViewById<TextView>(R.id.textViewInternetAccess).text = if (barEntity.internetAccess) "Yes" else "No"
-            findViewById<TextView>(R.id.textViewSmokingAllowed).text = if (barEntity.smokingAllowed) "Yes" else "No"
-            findViewById<TextView>(R.id.textViewImage).text = barEntity.image ?: "N/A"
-            findViewById<TextView>(R.id.textViewWebsiteMenu).text = barEntity.websiteMenu ?: "N/A"
-            findViewById<TextView>(R.id.textViewWebsite).text = barEntity.website ?: "N/A"
-            findViewById<TextView>(R.id.textViewPhoneNumber).text = barEntity.phoneNumber ?: "N/A"
-            findViewById<TextView>(R.id.textViewMichelinStars).text = barEntity.michelinStars?.toString() ?: "N/A"
-            findViewById<TextView>(R.id.textViewKitchenOpeningHours).text = barEntity.kitchenOpeningHours ?: "N/A"
+            Log.d(TAG, "Bar no es null en bardetailsActivity")
+            findViewById<TextView>(R.id.textViewBarName).text = "Bar Name: ${barEntity.name}"
+            findViewById<TextView>(R.id.textViewCuisine).text = "Cuisine: ${barEntity.cuisine ?: "N/A"}"
+            findViewById<TextView>(R.id.textViewOpeningHours).text = "Opening Hours: ${barEntity.openingHours ?: "N/A"}"
+            findViewById<TextView>(R.id.textViewTakeaway).text = "Takeaway: ${if (barEntity.takeaway) "Yes" else "No"}"
+            findViewById<TextView>(R.id.textViewDelivery).text = "Delivery: ${if (barEntity.delivery) "Yes" else "No"}"
+            findViewById<TextView>(R.id.textViewAddress).text = "Address: ${barEntity.address ?: "N/A"}"
+            findViewById<TextView>(R.id.textViewVegetarianFriendly).text = "Vegetarian Friendly: ${if (barEntity.vegetarianFriendly) "Yes" else "No"}"
+            findViewById<TextView>(R.id.textViewVeganFriendly).text = "Vegan Friendly: ${if (barEntity.veganFriendly) "Yes" else "No"}"
+            findViewById<TextView>(R.id.textViewStartDate).text = "Start Date: ${barEntity.startDate ?: "N/A"}"
+            findViewById<TextView>(R.id.textViewSmokingAllowed).text = "Smoking Allowed: ${if (barEntity.smokingAllowed) "Yes" else "No"}"
+            findViewById<TextView>(R.id.textViewImage).text = "Image: ${barEntity.image ?: "N/A"}"
+            findViewById<TextView>(R.id.textViewWebsite).text = "Website: ${barEntity.website ?: "N/A"}"
+            findViewById<TextView>(R.id.textViewPhoneNumber).text = "Phone Number: ${barEntity.phoneNumber ?: "N/A"}"
+            findViewById<TextView>(R.id.textViewMichelinStars).text = "Michelin Stars: ${barEntity.michelinStars?.toString() ?: "N/A"}"
+            findViewById<TextView>(R.id.textViewKitchenOpeningHours).text = "Kitchen Opening Hours: ${barEntity.kitchenOpeningHours ?: "N/A"}"
         } else {
             // Manejar el caso donde barEntity es nulo, por ejemplo, mostrar un mensaje de error con Toast
-            Toast.makeText(this, "Bar details not found", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "Bar es null en bardetailsactivity")
         }
     }
 }

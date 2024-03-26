@@ -2,25 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FFF3E0">
 
     <TextView
         android:id="@+id/textViewBarName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
+        android:textColor="#FF5722"
         android:text="Bar Name" />
 
+    <!-- Cuisine -->
     <TextView
         android:id="@+id/textViewCuisine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewBarName"
         android:layout_marginTop="16dp"
         android:text="Cuisine" />
@@ -29,180 +32,158 @@
         android:id="@+id/textViewOpeningHours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewCuisine"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Opening Hours" />
 
+    <!-- Double space -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_below="@id/textViewOpeningHours" />
+
+    <!-- Takeaway -->
     <TextView
         android:id="@+id/textViewTakeaway"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewOpeningHours"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Takeaway" />
 
     <TextView
         android:id="@+id/textViewDelivery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewTakeaway"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Delivery" />
 
-    <TextView
-        android:id="@+id/textViewOutdoorSeating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/textViewDelivery"
-        android:layout_marginTop="8dp"
-        android:text="Outdoor Seating" />
-
-    <TextView
-        android:id="@+id/textViewReservation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/textViewOutdoorSeating"
-        android:layout_marginTop="8dp"
-        android:text="Reservation" />
-
+    <!-- Address -->
     <TextView
         android:id="@+id/textViewAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_below="@id/textViewReservation"
-        android:layout_marginTop="8dp"
+        android:textColor="#FF5722"
+        android:layout_below="@id/textViewDelivery"
+        android:layout_marginTop="16dp"
         android:text="Address" />
-
-    <TextView
-        android:id="@+id/textViewWheelchairAccessible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/textViewAddress"
-        android:layout_marginTop="8dp"
-        android:text="Wheelchair Accessible" />
 
     <TextView
         android:id="@+id/textViewVegetarianFriendly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_below="@id/textViewWheelchairAccessible"
-        android:layout_marginTop="8dp"
+        android:textColor="#FF5722"
+        android:layout_below="@id/textViewAddress"
+        android:layout_marginTop="16dp"
         android:text="Vegetarian Friendly" />
 
+    <!-- Vegan Friendly -->
     <TextView
         android:id="@+id/textViewVeganFriendly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewVegetarianFriendly"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Vegan Friendly" />
 
+    <!-- Start Date -->
     <TextView
         android:id="@+id/textViewStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewVeganFriendly"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Start Date" />
-
-    <TextView
-        android:id="@+id/textViewInternetAccess"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/textViewStartDate"
-        android:layout_marginTop="8dp"
-        android:text="Internet Access" />
 
     <TextView
         android:id="@+id/textViewSmokingAllowed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_below="@id/textViewInternetAccess"
-        android:layout_marginTop="8dp"
+        android:textColor="#FF5722"
+        android:layout_below="@id/textViewStartDate"
+        android:layout_marginTop="16dp"
         android:text="Smoking Allowed" />
 
+    <!-- Image -->
     <TextView
         android:id="@+id/textViewImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewSmokingAllowed"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Image" />
 
-    <TextView
-        android:id="@+id/textViewWebsiteMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/textViewImage"
-        android:layout_marginTop="8dp"
-        android:text="Website Menu" />
-
+    <!-- Website -->
     <TextView
         android:id="@+id/textViewWebsite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_below="@id/textViewWebsiteMenu"
-        android:layout_marginTop="8dp"
+        android:textColor="#FF5722"
+        android:layout_below="@id/textViewImage"
+        android:layout_marginTop="16dp"
         android:text="Website" />
 
+    <!-- Phone Number -->
     <TextView
         android:id="@+id/textViewPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewWebsite"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Phone Number" />
 
+    <!-- Michelin Stars -->
     <TextView
         android:id="@+id/textViewMichelinStars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewPhoneNumber"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Michelin Stars" />
 
+    <!-- Kitchen Opening Hours -->
     <TextView
         android:id="@+id/textViewKitchenOpeningHours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#FF5722"
         android:layout_below="@id/textViewMichelinStars"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Kitchen Opening Hours" />
 
 </RelativeLayout>

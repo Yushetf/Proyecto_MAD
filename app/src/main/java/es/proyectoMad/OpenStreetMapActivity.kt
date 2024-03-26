@@ -176,17 +176,12 @@ class OpenStreetMapActivity : AppCompatActivity() {
                                     openingHours = openingHours,
                                     takeaway = false, // No se proporciona en la respuesta de la API
                                     delivery = delivery,
-                                    outdoorSeating = outdoorSeating,
-                                    reservation = reservation,
                                     address = address,
-                                    wheelchairAccessible = wheelchairAccessible,
                                     vegetarianFriendly = false, // No se proporciona en la respuesta de la API
                                     veganFriendly = false, // No se proporciona en la respuesta de la API
                                     startDate = startDate,
-                                    internetAccess = internetAccess,
                                     smokingAllowed = smokingAllowed,
                                     image = image,
-                                    websiteMenu = websiteMenu,
                                     website = website,
                                     phoneNumber = phoneNumber,
                                     michelinStars = michelinStars,

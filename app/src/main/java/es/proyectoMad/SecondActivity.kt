@@ -70,15 +70,19 @@ class SecondActivity : AppCompatActivity() {
         // Listener para la selección de un bar en la lista
         listView.setOnItemClickListener { _, _, position, _ ->
             val selectedBarName = adapter.getItem(position)
-            val selectedBarEntity = selectedBarName?.let { database.barDao().getBarByName(it) }
-            if (selectedBarEntity != null) {
-                val intent = Intent(this@SecondActivity, BarDetailsActivity::class.java)
-                intent.putExtra("barEntity", selectedBarEntity)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Bar not found", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch(Dispatchers.IO) {
+                val selectedBarEntity = selectedBarName?.let { database.barDao().getBarByName(it) }
+                withContext(Dispatchers.Main) {
+                    if (selectedBarEntity != null) {
+                        Log.d(TAG, "Bar no es null en secondactivity")
+                        val intent = Intent(this@SecondActivity, BarDetailsActivity::class.java)
+                        intent.putExtra("barEntity", selectedBarEntity)
+                        startActivity(intent)
+                    } else {
+                        Log.d(TAG, "Bar es null en secondactivity")
+                    }
+                }
             }
-
         }
     }
 

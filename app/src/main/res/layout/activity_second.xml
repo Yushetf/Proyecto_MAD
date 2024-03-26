@@ -1,40 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="es.proyectoMad.SecondActivity">
+    android:background="#FFF3E0">
 
     <Button
         android:id="@+id/deleteAllBarsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete All"
+        android:textColor="#FFFFFF"
+        android:background="#FF5722"
         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintTop_toTopOf="parent"
-         android:layout_marginTop="16dp"
-         android:layout_marginEnd="16dp"
-    />
-
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:background="#FF5722"
+        android:textColor="#FFFFFF"
         app:menu="@menu/bottom_nav_menu"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ListView
         android:id="@+id/listViewBars"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="#FFF3E0"
+        app:layout_constraintTop_toBottomOf="@id/deleteAllBarsButton"
         app:layout_constraintBottom_toTopOf="@id/nav_view"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
