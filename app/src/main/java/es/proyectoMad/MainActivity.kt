@@ -189,7 +189,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         val user = FirebaseAuth.getInstance().currentUser
         if (user == null) {
             val providers = arrayListOf(
-                AuthUI.IdpConfig.EmailBuilder().build(),
+                //AuthUI.IdpConfig.EmailBuilder().build(),
                 AuthUI.IdpConfig.GoogleBuilder().build()
             )
             startActivityForResult(
