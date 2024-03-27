@@ -4,12 +4,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
@@ -84,6 +87,23 @@ class SecondActivity : AppCompatActivity() {
                 }
             }
         }
+
+        // Configurar TextWatcher para la búsqueda
+        val searchEditText: EditText = findViewById(R.id.searchEditText)
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val searchText = s.toString()
+                filterBars(searchText)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No es necesario implementar este método
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // No es necesario implementar este método
+            }
+        })
     }
 
     override fun onResume() {
@@ -106,6 +126,18 @@ class SecondActivity : AppCompatActivity() {
         return barNamesSet.toList().sorted()
     }
 
+    private fun filterBars(searchText: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val allBars = loadBarsFromDatabase()
+            val filteredBars = allBars.filter { barName ->
+                barName.contains(searchText, ignoreCase = true)
+            }
+            withContext(Dispatchers.Main) {
+                adapter.updateData(filteredBars)
+            }
+        }
+    }
+
     private fun deleteAllBarsFromDatabase() {
         lifecycleScope.launch(Dispatchers.IO) {
             database.barDao().deleteAllBars()
@@ -116,7 +148,6 @@ class SecondActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private class BarAdapter(context: Context, private val barList: MutableList<String>) :
         ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, barList) {
