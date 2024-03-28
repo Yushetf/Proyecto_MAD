@@ -15,23 +15,44 @@ Thanks to Bar Finders!, we will save time by not having to filter the type of pl
 
 ## Screenshots and navigation
 
-![Main screen capture.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Home.png)
-Main Screen
+![Login screen.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/1inicio%20sesion%20google.png)
+Login
 
-![Map part 1.](https://github.com/Yushetf/Proyecto_MAD/blob/master/MAPA.png)
-Main Map Screen without a set maximum distance
+![Main screen.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/2sesion%20iniciada.png)
+Home Screen 
 
-![Map part 2.](https://github.com/Yushetf/Proyecto_MAD/blob/master/map2.png)
-Setting a new maximum distance
+![Settings button.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/3boton%20menu%20ajustes.png)
+Settings button
 
-![Map part 3.](https://github.com/Yushetf/Proyecto_MAD/blob/master/mapa3.png)
-Map Screen with a specified maximum distance
+![Main map screen.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/4mapa%201.png)
+Main map Screen
 
-![List.](https://github.com/Yushetf/Proyecto_MAD/blob/master/lista.png)
+![Main map screen.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/5mapa%202.png)
+Map Screenshot
+
+![Main map screen.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/6mapa%203.png)
+Map Screenshot
+
+![Map features.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/7mapa%204.png)
+Map feature
+
+![Map features.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/8mapa%205.png)
+Map feature
+
+![Map features.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/9mapa%206.png)
+Map feature
+
+![List.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/10collection%201.png)
 List of restaurants
 
+![Search bar.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/11collection%202.png)
+Search bar
+
+![Bar information.](https://github.com/Yushetf/Proyecto_MAD/blob/master/Screenshots/12collection%203.png)
+Bar information
+
 ## Demo Video
-[Demo](https://upm365-my.sharepoint.com/personal/yushetf_lopez_jimenez_alumnos_upm_es/_layouts/15/stream.aspx?id=%2Fpersonal%2Fyushetf%5Flopez%5Fjimenez%5Falumnos%5Fupm%5Fes%2FDocuments%2Fgrabacion%20bar%20finders%201%2Ewebm&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview "Demo video")
+[Demo](https://upm365-my.sharepoint.com/personal/yushetf_lopez_jimenez_alumnos_upm_es/_layouts/15/stream.aspx?id=%2Fpersonal%2Fyushetf%5Flopez%5Fjimenez%5Falumnos%5Fupm%5Fes%2FDocuments%2FScreen%5Frecording%5F20240328%5F124358%2Emp4&nav=eyJkZWZhdWx0TmF2UGFuZWwiOnsicGx1Z2luTmFtZSI6Ik1lZGlhU2V0dGluZ3NMYXllciJ9LCJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJVcGxvYWREaWFsb2dPcGVuQnV0dG9uIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview)
 
 ## Features
 
@@ -46,6 +67,8 @@ List of restaurants
   · Your current location is marked on the map.
 
   · A list is created with the available bars or restaurants so that we can see the names of those available establishments.
+
+  · You will be able to search by name among the bars available in that list.
 
   · You can specify the maximum distance at which you want bars or restaurants to appear.
 
@@ -78,9 +101,13 @@ List of restaurants
   · Map Integration: Integrates OpenStreetMap using OSMDroid library, displays map tiles and markers (OpenStreetMapActivity).
 
   · Network Operations: Performs network requests using Retrofit for fetching nearby bars/restaurants from the Overpass API (OpenStreetMapActivity).
+  
+  · Firebase Authentication: Implements user authentication using Firebase Authentication for user sign-in and sign-out (MainActivity, SettingsActivity).
+
+  · Firebase UI: Utilizes Firebase UI library for authentication UI components and flows (MainActivity, SettingsActivity).
 
 ## How to Use
-  · First step: we enter the application and wait until the coordinates appear on the main screen (otherwise, the map will not load correctly).
+  · First step: We enter the application and log in with our Google account. Then, we should wait until the coordinates appear on the main screen (otherwise, the map will not load correctly).
 
   · Second step: Once our coordinates have loaded, we can access the map and see the restaurants or bars within a 5km distance from us (default distance).
 
@@ -90,6 +117,10 @@ List of restaurants
   · Fourth step: We can view a list of available bars or restaurants if AFTER using the map, we go to the collection button. There, the names of the bars or restaurants   
     will appear. We can also clear the list by clicking on the button located at the top right (DELETE ALL), which will delete the entire database.
 
+  · Fifth step: We can use the search bar to search by name for one of the available bars on our list (Optional).
+
+  · Sixth step: We can click on any bar in the list to display information about it.
+    
 ## Participants
 
 List of Proyecto_MAD developers:
